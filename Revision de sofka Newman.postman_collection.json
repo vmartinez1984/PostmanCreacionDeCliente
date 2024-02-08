@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "0a2ba31c-4fe6-45af-bdcb-4e7bd21d7e2b",
+		"name": "Revision de sofka Newman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2660252",
+		"_collection_link": "https://tecas-team.postman.co/workspace/Pts-TDC~8bc4b3fe-6aa1-4e02-b991-79e26bd4e8ba/collection/2660252-0a2ba31c-4fe6-45af-bdcb-4e7bd21d7e2b?action=share&source=collection_link&creator=2660252"
+	},
+	"item": [
+		{
+			"name": "Obtener Cliente Fake",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cliente fake\", function () {\r",
+							"    var jsonData = pm.response.json();    \r",
+							"    pm.collectionVariables.set(\"firstName\", jsonData.firstName)\r",
+							"    pm.collectionVariables.set(\"lastName\", jsonData.lastName)\r",
+							"    pm.collectionVariables.set(\"mobilePhone\", jsonData.mobilePhone)\r",
+							"    pm.collectionVariables.set(\"curp\", jsonData.curp)\r",
+							"    pm.collectionVariables.set(\"rfc\", jsonData.rfc)\r",
+							"    pm.collectionVariables.set(\"primerApellido\", jsonData.primerApellido)\r",
+							"    pm.collectionVariables.set(\"emailAddress\", jsonData.emailAddress)\r",
+							"    pm.collectionVariables.set(\"mobilePhone\", jsonData.mobilePhone)\r",
+							"    pm.collectionVariables.set(\"birthDate\", jsonData.birthDate)\r",
+							"    pm.collectionVariables.set(\"primerApellido\", jsonData.primerApellido)\r",
+							"    pm.collectionVariables.set(\"segundoApellido\", jsonData.segundoApellido)\r",
+							"    pm.collectionVariables.set(\"estadoCivilDatosCliente\", jsonData.estadoCivilDatosCliente)\r",
+							"    pm.collectionVariables.set(\"generoMasculinoFemeninoInicial\", jsonData.generoMasculinoFemeninoInicial)\r",
+							"    pm.collectionVariables.set(\"rfc\", jsonData.rfc)\r",
+							"    pm.collectionVariables.set(\"curp\", jsonData.curp)\r",
+							"    pm.collectionVariables.set(\"lugarDeNacimiento\", jsonData.lugarDeNacimiento)\r",
+							"    pm.collectionVariables.set(\"calle\", jsonData.calle)\r",
+							"    pm.collectionVariables.set(\"numeroInterior\", jsonData.numeroInterior)\r",
+							"    pm.collectionVariables.set(\"numeroExterior\", jsonData.numeroExterior)\r",
+							"    pm.collectionVariables.set(\"codigoPostal\", jsonData.codigoPostal)\r",
+							"    pm.collectionVariables.set(\"colonia\", jsonData.colonia)\r",
+							"    pm.collectionVariables.set(\"municipio\", jsonData.municipio)\r",
+							"    pm.collectionVariables.set(\"estado\", jsonData.estado)\r",
+							"    pm.collectionVariables.set(\"generoInicial\", jsonData.generoInicial)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "https://utilidades.vmartinez84.xyz/api/PersonaFakes",
+					"protocol": "https",
+					"host": [
+						"utilidades",
+						"vmartinez84",
+						"xyz"
+					],
+					"path": [
+						"api",
+						"PersonaFakes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Ok get token\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{constraseniaPts}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{usuarioPts}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "pCHANNEL",
+						"value": "BACKOFFICE"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dmhtYXJ0aW5lemI6VEVDQVMxMjM0Xw=="
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api-camesa-dev.2innovateit.com/adaptorOAS/auth/login?grant_type=client_credentials",
+					"protocol": "https",
+					"host": [
+						"api-camesa-dev",
+						"2innovateit",
+						"com"
+					],
+					"path": [
+						"adaptorOAS",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar cliente Pts",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const dateNow = new Date();\r",
+							"pm.collectionVariables.set('currentDate', dateNow.toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    var jsonData = pm.response.json();    \r",
+							"    pm.collectionVariables.set(\"clienteId\", jsonData.messageRS.id)\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36 OPR/75.0.3969.244"
+					},
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/pts-m1255v1+json"
+					},
+					{
+						"key": "pCHANNEL",
+						"value": "APP_MOVIL_IN"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIwQzZDMjkyNjBEMTUxRjY5RTA2MzAxMDAwMDdGNTU1NCIsImlzcyI6ImFkYXB0b3JPQVMiLCJicmFuY2giOiJ3QPGATOuSF0Ot9-mKEEPHSI3yX6krOTl_rE_KX5JiFMGeU_FehOCYS59O8zn8Viig2iiTQK3JfoYNf_vJHo63xS3DkHTfK6zZU47boXtzQj9cEGFVKBm_lir-UEU8Y-k6bMsuvIPE53AJOYYn9RgIY9sMzjsomE9Mwl6rJm46OfIVvKhzS1cZBA"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"headerRQ\": {\r\n        \"msgId\": \"{{$guid}}\",\r\n        \"timestamp\": \"{{currentDate}}\"\r\n    },\r\n    \"securityRQ\": {\r\n        \"hostId\": \"\",\r\n        \"channelId\": \"APP_MOVIL_IN\"\r\n    },\r\n    \"messageRQ\": {\r\n        \"BusinessPartner\": {\r\n            \"BDomainId\": \"CONSUMER_BANKING\",\r\n            \"BSegmentId\": \"nivel2\",\r\n            \"BPartnerType\": \"REGULAR_CUSTOMER\",\r\n            \"BPExternalId\": \"\",\r\n            \"partyCompany\": [],\r\n            \"partyPerson\": [\r\n                {\r\n                    \"firstName\": \"{{firstName}}\",\r\n                    \"lastName\": \"{{lastName}}\",\r\n                    \"secondSurname\": \"\",\r\n                    \"gender\": \"{{generoMasculinoFemeninoInicial}}\",\r\n                    \"initname\": \"\",\r\n                    \"profession\": \"{{$randomJobTitle}}\",\r\n                    \"maritalStatus\": \"{{estadoCivilDatosCliente}}\",\r\n                    \"dateOfBirth\": \"{{birthDate}}\",\r\n                    \"nationality\": \"\",\r\n                    \"phone\": \"\",\r\n                    \"cellphone\": \"{{mobilePhone}}\",\r\n                    \"alternativePhone\": \"\",\r\n                    \"email\": \"{{emailAddress}}\",\r\n                    \"externalId\": \"\",\r\n                    \"address\": [],\r\n                    \"identification\": {\r\n                        \"identificationType\": \"CURP\",\r\n                        \"identificationNumber\": \"{{curp}}\",\r\n                        \"expirationDate\": \"2026-01-12\",\r\n                        \"country\": \"MX\"\r\n                    },\r\n                    \"participation\": \"OWNER_CUSTOMER\"\r\n                }\r\n            ]\r\n        },\r\n        \"BusinessPartnerAccount\": {\r\n            \"bankId\": \"40659\",\r\n            \"currency\": \"MXN\",\r\n            \"account\": {\r\n                \"legacyId\": {},\r\n                \"othersId\": []\r\n            }\r\n        },\r\n        \"BusinessPartnerAdditionals\": {\r\n            \"_Datos_Personales_Clientes\": {\r\n                \"Primer_Apellido\": \"{{primerApellido}}\",\r\n                \"Genero_Datos_Personales_Cliente\": \"{{generoMasculinoFemeninoInicial}}\",\r\n                \"RFC_Datos_Personales_Cliente\": \"{{rfc}}\",\r\n                \"Segundo_Apellido\": \"{{segundoApellido}}\",\r\n                \"Lugar_Nacimiento\": \"{{lugarDeNacimiento}}\"\r\n            },\r\n            \"_Direccion_Clientes\": {\r\n                \"Calle_Direccion_Cliente\": \"{{$randomStreetName}}\",\r\n                \"Numero_Ext_Direccion_Cliente\": \"{{numeroInterior}}\",\r\n                \"Numero_Int_Direccion_Cliente\": \"{{numeroInterior}}\",\r\n                \"CP_Direccion_Cliente\": \"{{codigoPostal}}\",\r\n                \"Colonia_Direccion_Cliente\": \"{{colonia}}\",\r\n                \"Municipio_Direccion_Cliente\": \"{{municipio}}\",\r\n                \"Estado_Direccion_Cliente\": \"{{estado}}\"\r\n            }\r\n        }\r\n    },\r\n    \"thirdPartyAdditionals\": {\r\n        \"userId\": \"oficialPrueba\"\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "https://api-camesa-dev.2innovateit.com/RSAdaptorFE/api/v2/own-channels/custom/service/GESTIONAR_CLIENTE/execute",
+					"protocol": "https",
+					"host": [
+						"api-camesa-dev",
+						"2innovateit",
+						"com"
+					],
+					"path": [
+						"RSAdaptorFE",
+						"api",
+						"v2",
+						"own-channels",
+						"custom",
+						"service",
+						"GESTIONAR_CLIENTE",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "usuarioPts",
+			"value": "vhmartinezb"
+		},
+		{
+			"key": "constraseniaPts",
+			"value": "Macross#2012"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "firstName",
+			"value": ""
+		},
+		{
+			"key": "lastName",
+			"value": ""
+		},
+		{
+			"key": "mobilePhone",
+			"value": ""
+		},
+		{
+			"key": "curp",
+			"value": ""
+		},
+		{
+			"key": "rfc",
+			"value": ""
+		},
+		{
+			"key": "primerApellido",
+			"value": ""
+		},
+		{
+			"key": "emailAddress",
+			"value": ""
+		},
+		{
+			"key": "birthDate",
+			"value": ""
+		},
+		{
+			"key": "segundoApellido",
+			"value": ""
+		},
+		{
+			"key": "estadoCivilDatosCliente",
+			"value": ""
+		},
+		{
+			"key": "genero",
+			"value": ""
+		},
+		{
+			"key": "lugarDeNacimiento",
+			"value": ""
+		},
+		{
+			"key": "calle",
+			"value": ""
+		},
+		{
+			"key": "numeroInterior",
+			"value": ""
+		},
+		{
+			"key": "numeroExterior",
+			"value": ""
+		},
+		{
+			"key": "codigoPostal",
+			"value": ""
+		},
+		{
+			"key": "colonia",
+			"value": ""
+		},
+		{
+			"key": "municipio",
+			"value": ""
+		},
+		{
+			"key": "estado",
+			"value": ""
+		},
+		{
+			"key": "currentDate",
+			"value": ""
+		},
+		{
+			"key": "generoInicial",
+			"value": ""
+		},
+		{
+			"key": "clienteId",
+			"value": ""
+		},
+		{
+			"key": "generoMasculinoFemeninoInicial",
+			"value": ""
+		}
+	]
+}
